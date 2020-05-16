@@ -12,7 +12,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+// Route::get('/', function(){
+// 	return view('admin.form');
+// });
 Route::get('/', 'HomeCotroller@index');
 Route::post('addnew','HomeCotroller@test')->name('up.i');
 Route::post('add-new','HomeCotroller@savesize')->name('save.size');

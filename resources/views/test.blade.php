@@ -21,12 +21,18 @@
 		<input type="submit" value="submit" >
 
 	</form>
-	<div class="testArray">
+	<div class="testImage">
+		<input type="file" name="image[]" class="image" multiple>
+		<button class="logImage">click</button>
+	</div>
+	<div class="showImage"></div>
+{{-- 	<div class="testArray">
 		<input type="type" name="name[]" class="nameArray">
 		<input type="type" name="name[]" class="nameArray">
 		<input type="type" name="name[]" class="nameArray">
 		<button class="Array">Array</button>
-	</div>
+	</div> --}}
+
 	
 
 <div class="container">
@@ -64,9 +70,36 @@
 			$('.size').append('<input type="text" class="sizename" ><button id="saveSize">Save Size</button>');
 		});
 		$(document).ready(function(){
-			$('.Array').click(function(){
-				var array = $(".nameArray").val();
-				console.log(array);
+			$('.logImage').click(function(){
+				const aaa =document.getElementsByClassName('image');
+				var array = $('.image').val();
+				var blockImage='';
+				  // var openFile = function(event) {
+					   
+					  // };
+					
+				
+				const ii =aaa[0].files;
+				for (var i = 0; i < ii.length; i++) {
+					
+					 var input = ii[i].target;
+
+					    var reader = new FileReader();
+					    reader.onload = function(){
+					      var dataURL = reader.result;
+					      var output = document.getElementById('output');
+					      output.src = dataURL;
+					      console.log(output.src);
+					    };
+					    // reader.readAsDataURL(input.files[0]);
+					const si =ii[i];
+
+				
+					blockImage+='<img src="'+si.name+'">';
+					console.log(si);
+				}
+				$('.showImage').html(blockImage);
+				console.log(blockImage);
 			});	
 		});
 		$(document).ready(function(){
