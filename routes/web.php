@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeCotroller@index');
+Route::post('addnew','HomeCotroller@test')->name('up.i');
+Route::post('add-new','HomeCotroller@savesize')->name('save.size');
+Route::get('get-size','HomeCotroller@getsize')->name('get.size');
