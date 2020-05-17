@@ -59,6 +59,7 @@
 <!-- ./wrapper -->
 @include('layouts.layout_admins.layouts.js')
 <!-- jQuery -->
+@yield('js')
 
 </body>
 </html>
