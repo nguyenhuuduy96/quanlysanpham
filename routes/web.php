@@ -13,9 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Route::get('/', function(){
-// 	return view('form');
+// 	return view('testForm');
 // });
-Route::get('/', 'HomeCotroller@index');
-Route::post('addnew','HomeCotroller@test')->name('save.product');
+Route::get('/', 'HomeCotroller@index')->name('home');
+Route::get('get-form-update/{id}','HomeCotroller@GetFormUpdate')->name('get.form.update');
+Route::get('add-form-product','HomeCotroller@getAddNew')->name('get.form.new');
+Route::post('save-update','HomeCotroller@saveupdate')->name('save.update');
+Route::post('add-product','HomeCotroller@test')->name('save.product');
 Route::post('add-new','HomeCotroller@savesize')->name('save.size');
 Route::get('get-size','HomeCotroller@getsize')->name('get.size');
+Route::get('delete-image','HomeCotroller@deleteImage')->name('delete.image');
