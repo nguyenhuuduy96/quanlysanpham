@@ -13,7 +13,17 @@ class HomeCotroller extends Controller
 {
 	public function index(){
 		$sizes=Size::all();
-		$products=Product::paginate(10);		
+		// $products2=Product::where('name','like', "%s%")->paginate(20);
+		// $products= Product::where('name','like','%s')->get();
+		// dd($products2);
+		// dd($sizes);
+		// $product=Product::find(4);
+		// // dd($product);
+		// // $product->sizes()->detach();
+
+		// $product->delete();
+		$products=Product::paginate(10);
+		// dd($products);		
 		return view('list',['sizes'=>$sizes,'products'=>$products]);
 	}
 	public function getAddNew(){
@@ -26,14 +36,101 @@ class HomeCotroller extends Controller
 		return view('FormUpdate',['product'=>$product,'sizes'=>$sizes]);
 	}
 	public function savesize(Request $req){
+		
 		$addsize = new Size();
 		$addsize->size=$req->size;
 		$addsize->save();
 		return response()->json(['addsize'=>$addsize]);
 	}
-	public function getsize(){
+	public function getSizeAll(){
 		$sizes=Size::all();
 		return response()->json(['getsize'=>$sizes]);
+	}
+	public function getsize(Request $req){
+		$size = Size::find($req->id);
+		return response()->json(['size'=>$size]);
+	}
+	public function getsearch(Request $req){
+		$products= Product::where('name','like',"%$req->search%")->get();
+		return response()->json(['products'=>$products]);
+	}
+	public function deleteproduct(Request $req){
+		$product=Product::find($req->id);
+		// // $product->sizes()->detach();
+		$product->delete();
+		// return response()->json(['product'=>$product]);
+	}
+	public function image(Request $req){
+		$name=$req->name;
+		$image=$req->image;
+		$newArrayImage=[];
+		foreach ($req->file('image') as $key => $file)
+			{
+				// lấy đuôi file .jpg
+				// $img = new Image();
+				$ext = $file->extension();
+				
+            	// lay ten anh go
+            	$filename = $file->getClientOriginalName();
+            	// đôi tên file
+            	$filename = str::slug(str_replace("." . $ext, "", $filename)) . "-" . str::random(20) . "." . $ext;
+            	// dd($filename);
+            	//lưu file vào thư mục
+            	$saveImage=$file->move("images",$filename);
+            	$image="img/images/".$filename;
+            	// $img->image=$image;
+            	// $img->product_id=$product->id;
+            	// $img->sort=$req->sort[$key];
+            	// $img->save();
+            	array_push($newArrayImage,['image'=>$image]);
+            	// dd($newArrayImage);
+   
+			}
+		// $ext = $req->image->extension();
+				
+  //           	// lay ten anh gos
+  //           	$filename = $req->image->getClientOriginalName();
+  //           	// đôi tên file
+  //           	// dd($filename);
+  //           	$filename = str::slug(str_replace("." . $ext, "", $filename)) . "-" . str::random(20) . "." . $ext;
+  //           	// dd($filename);
+  //           	//lưu file vào thư mục
+  //           	$saveImage=$file->move("images",$filename);
+  //           	$image="images/".$filename;
+		return response()->json(['name'=>$name,'image'=>$newArrayImage]);
+	}
+	public function testimage(Request $req){
+
+
+		// dd($req->image);
+		// $newArrayImage=[];
+		// // if ($req->has('image')) {
+		// // 	foreach ($req->image as $key => $file)
+		// // 	{
+		// // 		// lấy đuôi file .jpgs
+		// // 		// dd($file);
+				
+		// 		$ext = $req->image->extension();
+				
+  //           	// lay ten anh go
+  //           	$filename = $req->image->getClientOriginalName();
+  //           	// đôi tên file
+  //           	// dd($filename);
+  //           	$filename = str::slug(str_replace("." . $ext, "", $filename)) . "-" . str::random(20) . "." . $ext;
+  //           	// dd($filename);
+  //           	//lưu file vào thư mục
+  //           	$saveImage=$file->move("images",$filename);
+  //           	$image="images/".$filename;
+            	
+  //           	array_push($newArrayImage,['image'=>$image]);
+  // //           	// dd($newArrayImage);
+  // //           	// dd($newArrayImage);
+   
+		// 	}s
+		// // 	// die();
+		// }
+		
+			return response()->json(['img'=>"$req->name"]);
 	}
 	public function test(Request $req){
 		// dd($req->all());		
@@ -74,10 +171,11 @@ class HomeCotroller extends Controller
 			}
 			
 			// Image::insert($newArrayImage);
-				return redirect('/');
+				
 			echo "success";
 			// dd($newArrayImage,$array_attribute);
 		}
+		return redirect(route('home'));
 		
 	}
 	public function saveupdate(Request $req){
@@ -107,7 +205,7 @@ class HomeCotroller extends Controller
 			} else {
 				# code...
 				$i++;
-				array_push($arr, $req->image[$i]);
+				
 				$img = new Image();
 				echo $product->id;
 				echo $req->sort[$key];

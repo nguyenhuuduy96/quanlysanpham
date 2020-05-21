@@ -14,6 +14,13 @@ class Product extends Model
 	public function images(){
 		return $this->hasmany('App\Models\Image','product_id','id')->orderby('sort','desc');
 	}
-	
+	// public function delete()    
+ //    {
+ //        DB::transaction(function() 
+ //        {
+ //            $this->images()->delete();
+ //            parent::delete();
+ //        });
+ //    }
     //
 }

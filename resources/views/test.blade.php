@@ -1,198 +1,111 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
+
 <head>
-	<title></title>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<meta name="csrf-token" content="{{ csrf_token() }}" />
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css"/>
+
+    <style type="text/css">
+
+        .main-section{
+
+            margin:0 auto;
+
+            padding: 20px;
+
+            margin-top: 100px;
+
+            background-color: #fff;
+
+            box-shadow: 0px 0px 20px #c1c1c1;
+
+        }
+
+        .fileinput-remove,
+
+        .fileinput-upload{
+
+            display: none;
+
+        }
+
+    </style>
+
 </head>
-<body>
-	<form class="subimage" action="{{route('up.i')}}" method="post"  enctype="multipart/form-data">
-		@csrf
-		{{-- <input type="file" name="image[]" multiple><br> --}}
-		<select name="size_id[]" id="showidsize">
-			<option value="2" > --vui long chọn size--</option>
-			<option value="1" > --chọn s--</option>
-		</select><a class="clicksize">new</a><br><input type="text" name="price[]"><br>
-		<div class="up"></div><div class="up"></div>
-		
-		<input type="submit" value="submit" >
 
-	</form>
-{{-- 	<div class="testImage">
-		<input type="file" name="image[]" class="image" multiple>
-		<button class="logImage">click</button>
-	</div> --}}
+<body class="bg-danger">
 
-	<img id="imageTarget" src="" class="img-responsive">
-{{-- <img id="showImage" src="" class="img-responsive"> --}}
-	<div class="showImage"></div>
-{{-- 	<div class="testArray">
-		<input type="type" name="name[]" class="nameArray">
-		<input type="type" name="name[]" class="nameArray">
-		<input type="type" name="name[]" class="nameArray">
-		<button class="Array">Array</button>
-	</div> --}}
-<div class="container">
-		<h1 class="text-center">Them moi san pham</h1>
-		<div class="row shadow p-3 mb-5 bg-white rounded">
-			<div class="col-sm-6">
-				<form action="/action_page.php">
-					<div class="form-group">
-						<label for="type">Ten san pham:</label>
-						<input type="type" class="form-control" id="name" placeholder="ten san pham" name="name">
-					</div>
-					<div class="form-group">
-						<label for="source">nguon:</label>
-						<input type="type" class="form-control" id="source" placeholder="source" name="source">
-					</div>
-					<div class="form-group">
-						<label for="time_expired">thoi gian het han:</label>
-						<input type="date" class="form-control" id="time_expired" placeholder="time_expired" name="time_expired">
-					</div>
-					<div class="form-group">
-						<label >file image</label>
-						<input type="file" name="image[]" class="image" multiple>
-					</div>
-					<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">thêm size</button>
+    <div class="container">
 
-					<button type="submit" class="btn btn-primary">Submit</button>
-				</form>
-			</div>
-			<div class="col-sm-6">
-				<div class="showImage">
-					
-				</div>
-			</div>
-		</div>
+        <div class="row">
 
-</div>
-	
+            <div class="col-lg-8 col-sm-12 col-11 main-section">
 
-<div class="container">
+                <h1 class="text-center text-danger">File Input Example</h1><br>
 
-  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">thêm size</button>
+                    <div class="form-group">
 
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Thêm mới một size</h4>
+                        <div class="file-loading">
+
+                            <input id="file-1" type="file" name="file" multiple class="file" data-overwrite-initial="false" data-min-file-count="2">
+
+                        </div>
+
+                    </div>
+
+            </div>
+
         </div>
-        <div class="modal-body">
-          <input class="newSize">
-          <button class="postSize">Lưu</button><br>
-          <span class="text-danger errorsSize"></span>
-          <span class="text-success successSize"></span>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
+
     </div>
-  </div>
-  
-</div>
-<script type="text/javascript">
-	var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-	$('#addsize').click(function(){
-		$('.size').append('<input type="text" class="sizename" ><button id="saveSize">Save Size</button>');
-	});
-	$(document).ready(function(){
-		var img = document.querySelector('input[type="file"]');
-		img.onchange = function(){
-			var file = this.files[0];
-
-			if(file == undefined){
-				$('#imageTarget').attr('src', '{{asset('img/default.jpg')}}');
-			}else{
-				const arrayImage =document.getElementsByClassName('image');
-				const listImage =arrayImage[0].files;
-		    // var showi='';
-		    for (var i = 0; i < listImage.length; i++) {
-		    	const image =listImage[i];
-		    	const test = new FileReader();
-		    	test.readAsDataURL(image);
-		    	test.onload = function () {
-		    	// console.log(reader.result);
-		      	// console.log(test.result);
-		      	$('.showImage').append('<img src="'+test.result+'" width="50px">');
-		      		};
-				}
-		}
-	}
-});
-		// $(document).ready(function(){
-		// 	$('.logImage').click(function(){
-		// 		const aaa =document.getElementsByClassName('image');
-		// 		var array = $('.image').val();
-		// 		var blockImage='';
-		// 		  // var openFile = function(event) {
-
-		// 			  // };
 
 
-		// 		const ii =aaa[0].files;
-		// 		for (var i = 0; i < ii.length; i++) {
 
-		// 			 var input = ii[i].target;
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/js/fileinput.js" type="text/javascript"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/themes/fa/theme.js" type="text/javascript"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" type="text/javascript"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" type="text/javascript"></script>
 
 
-		// 			const si =ii[i];
+
+   <!--  <script type="text/javascript">
+
+        $("#file-1").fileinput({
+
+            theme: 'fa',
+
+            uploadUrl: "/imageUpload.php",
+
+            allowedFileExtensions: ['jpg', 'png', 'gif'],
+
+            overwriteInitial: false,
+
+            maxFileSize:2000,
+
+            maxFilesNum: 10,
+
+            slugCallback: function (filename) {
+
+                return filename.replace('(', '_').replace(']', '_');
+
+            }
+
+        });
+
+    </script> -->
 
 
-		// 			blockImage+='<img src="'+si.name+'">';
-		// 			console.log(si);
-		// 		}
-		// 		$('.showImage').html(blockImage);
-		// 		console.log(blockImage);
-		// 	});	
-		// });
-		$(document).ready(function(){
-			$('.clicksize').click(function(){
-				$.ajax({
-					url:"{{ route('get.size')}}",
-					method: 'get',
-					success: function(data){
-						console.log(data.getsize);
-						$('.up').append(data.getsize);
-					}
-				});
-			});
-		});
-		$(document).ready(function(){
 
-			$(".postSize").click(function(){
-				var newsize=$(".newSize").val();
-				if (newsize=='') {
-					$('.errorsSize').html('vui lòng nhập');
-					return false;
-				}
-				$.ajax({
-
-					url: '{{ route('save.size')}}',
-					type: 'POST',
-					data: {_token: CSRF_TOKEN, size:newsize},
-
-					success: function (data) { 
-						$('#showidsize').append(data.listsize);
-						$('.successSize').html('thêm thành công');
-					}
-				}); 
-			});
-		});  
-		function xoa(event){
-			event.target.parentElement.remove();
-		}   
-		
-
-	</script>
 </body>
+
 </html>
