@@ -3,18 +3,21 @@
 <head>
 	<title></title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-
+	
 	<meta name="csrf-token" content="{{ csrf_token() }}" />
 	<style type="text/css">
 	li:hover{
 		background: #5897fb;
 		color: white;
+	}
+	.addSizePriceStock{
+		margin-top: 30px;
 	}
 
 
@@ -40,7 +43,7 @@
         <th>product name</th>
         <th>source</th>
         <th>Time expired</th>
-        <th><a href="{{route('get.form.new')}}" class="btn btn-primary">Add new product</a></th>
+        <th><a data-toggle="modal" data-target="#ModalProduct" class="btn btn-primary">Add new product</a></th>
         <th><a href="" class="btn btn-primary" data-toggle="modal" data-target="#modalTableSize">Table Size</a></th>
       </tr>
     </thead>
@@ -129,7 +132,93 @@
 				</div>
 
 			</div>
-</div>		
+</div>	
+<!-- product modal -->
+<div class="modal fade" id="ModalProduct">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add new Product</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="container">
+          	<div class="row">
+          		<div class="col-sm-8">
+          			<div class="form-group">
+						<label for="type">Ten san pham:</label>
+						<input type="type" class="form-control" id="name" placeholder="ten san pham" name="name" >
+						<span class="errorName" style="color: red"></span>
+					</div>
+					<div class="form-group">
+						<label for="source">nguon:</label>
+						<input type="type" class="form-control" id="source" placeholder="source" name="source" >
+						<span class="errorsource" style="color: red"></span>
+					</div>
+					<div class="form-group">
+						<label for="date">thoi gian het han:</label>
+						<input type="date" class="form-control" id="date" placeholder="time_expired" name="date" >
+						<span class="errortime_expired" style="color: red"></span>
+					</div>
+					<div class="form-group">
+						<label >file image</label>
+						<input type="file" name="image[]" class="form-control image" multiple="">
+						<span class="errorimage" style="color: red"></span>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+				              <label>size</label>
+				              <select class="form-control" name="size_id[]" class="validatesize"  style="width: 100%;">
+								<option value="">-- chọn --</option>
+				              	@foreach($sizes as $size)
+								<option  
+								 value="{{$size->id}}">{{$size->size}}</option>
+				              	@endforeach
+				              </select>
+				             </div>
+
+				            <div class="col-md-5">
+				             <label>giá</label>
+				             <input type="number" name="price[]" class="form-control" >
+				           </div>
+				           <div class="col-md-2">
+				             <label>số lượng</label>
+				             <input type="number" name="stock[]" class="form-control" >	                  
+				           </div>
+				           
+				           <div class="col-md-2">
+				           	<label><a class="btn btn-outline-primary addSizePriceStock">thêm</a>  </label>
+				           	
+				           </div>
+
+				        </div>
+					</div>
+					<div class="form-group" id="getsize">
+						
+					</div>
+
+          		</div>
+          		<div class="row col-sm-4" id="showImage">
+          			<div class="col-md-6"><img src="{{asset('img/default.jpg')}}" class="img-rounded img-thumbnail" alt="Cinque Terre" width="100%" height="236"><div class="form-group"><label>vị trí</label><input type="number" name="sort[]" class="form-control"></div></div>
+          			
+          		</div>
+          	</div>
+          </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>	
 <script type="text/javascript">
 
 		var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
